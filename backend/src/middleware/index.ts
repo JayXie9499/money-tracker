@@ -17,10 +17,10 @@ export function setupMiddleware(app: Express) {
 			contentSecurityPolicy: {
 				directives: {
 					defaultSrc: ["'self'"],
-					styleSrc: ["'self'", "https:"],
-					scriptSrc: ["'self'", "https:"],
-					imgSrc: ["'self'", "data:", "https:"],
-					fontSrc: ["'self'", "https:"]
+					styleSrc: ["'self'"],
+					scriptSrc: ["'self'"],
+					imgSrc: ["'self'", "data:"],
+					fontSrc: ["'self'"]
 				}
 			}
 		})
