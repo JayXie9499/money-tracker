@@ -1,0 +1,48 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model LogLevel {
+  id   Int    @id @default(autoincrement())
+  name String @unique @db.VarChar(10)
+  logs Log[]
+}
+
+model Log {
+  id        Int      @id @default(autoincrement())
+  levelId   Int
+  level     LogLevel @relation(fields: [levelId], references: [id])
+  message   String   @db.Text
+  details   Json?    @db.JsonB
+  timestamp DateTime @default(now()) @db.Timestamptz(3)
+}
+
+model Account {
+  id             Int      @id @default(autoincrement())
+  name           String   @unique @db.VarChar(50)
+  defaultBalance Decimal  @default(0) @db.Decimal(15, 2)
+  totalIncome    Decimal  @default(0) @db.Decimal(15, 2)
+  totalExpense   Decimal  @default(0) @db.Decimal(15, 2)
+  records        Record[]
+}
+
+model RecordType {
+  id      Int      @id @default(autoincrement())
+  name    String   @unique @db.VarChar(20)
+  records Record[]
+}
+
+model Record {
+  id        BigInt     @id @default(autoincrement())
+  typeId    Int
+  type      RecordType @relation(fields: [typeId], references: [id])
+  accountId Int
+  account   Account    @relation(fields: [accountId], references: [id])
+  amount    Decimal    @db.Decimal(15, 2)
+  date      DateTime   @db.Timestamptz(2)
+}
