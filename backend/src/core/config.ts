@@ -4,7 +4,7 @@ import * as z from "zod";
 dotenv.config();
 
 const URL_REGEX =
-	/^https?:\/\/((?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}|(?:\d{1,3}\.){3}\d{1,3}|localhost)(?::\d+)?(\/[a-zA-Z0-9-._~:!$&'()*+,;=%@]*)?$/;
+	/^(?:https?:\/\/)?((?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}|(?:\d{1,3}\.){3}\d{1,3}|localhost)(?::\d+)?(\/[a-zA-Z0-9-._~:!$&'()*+,;=%@]*)?$/;
 
 const config = z.object({
 	NODE_ENV: z.enum(["dev", "prod", "test"]).default("dev"),
@@ -12,8 +12,8 @@ const config = z.object({
 		.string()
 		.default("3000")
 		.transform((val) => parseInt(val, 10))
-		.refine((val) => val >= 1 && val <= 65535, {
-			error: "PORT must be between 1 and 65535"
+		.refine((val) => val >= 1024 && val <= 65535, {
+			error: "PORT must be between 1024 and 65535"
 		}),
 	DATABASE_URL: z.string().min(1, "DATABASE_URL is required"),
 	CORS_ORIGINS: z
@@ -25,4 +25,4 @@ const config = z.object({
 		})
 });
 
-export default config;
+export default config.parse(process.env);
