@@ -1,0 +1,30 @@
+{
+	"name": "money-tracker",
+	"version": "0.0.0",
+	"description": "",
+	"author": "Jay",
+	"license": "MIT",
+	"scripts": {
+		"start:backend": "pnpm --filter backend start",
+		"start:frontend": "pnpm --filter frontend start",
+		"dev:backend": "pnpm --filter backend dev",
+		"dev:frontend": "pnpm --filter frontend dev",
+		"build": "pnpm build:backend && pnpm build:frontend",
+		"build:backend": "pnpm --filter backend build",
+		"build:frontend": "pnpm --filter frontend build",
+		"lint": "pnpm lint:backend && pnpm lint:frontend",
+		"lint:backend": "pnpm --filter backend lint",
+		"lint:frontend": "pnpm --filter frontend lint",
+		"format": "pnpm format:backend && pnpm format:frontend",
+		"format:backend": "pnpm --filter backend format",
+		"format:frontend": "pnpm --filter frontend format"
+	},
+	"keywords": [
+		"money",
+		"tracker",
+		"expense",
+		"income",
+		"express",
+		"svelte"
+	]
+}
