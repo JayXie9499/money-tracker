@@ -2,7 +2,7 @@ import type { TransportStreamOptions } from "winston-transport";
 import type { PrismaClient } from "./generated/prisma/client";
 
 export enum LogLevel {
-	DEBUG,
+	DEBUG = 1,
 	INFO,
 	WARN,
 	ERROR,
