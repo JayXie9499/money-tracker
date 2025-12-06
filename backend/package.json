@@ -9,7 +9,9 @@
 		"dev": "tsc --watch & node --watch ./build/index.js",
 		"build": "tsc",
 		"lint": "eslint .",
-		"format": "prettier --write ."
+		"format": "prettier --write .",
+		"prisma:generate": "prisma generate",
+		"prisma:migrate": "prisma migrate dev"
 	},
 	"packageManager": "pnpm@10.17.1",
 	"dependencies": {
