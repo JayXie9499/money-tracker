@@ -3,6 +3,7 @@
 	"version": "0.0.0",
 	"author": "Jay",
 	"license": "MIT",
+	"type": "module",
 	"scripts": {
 		"start": "node ./build/index.js",
 		"dev": "tsc --watch & node --watch ./build/index.js",
