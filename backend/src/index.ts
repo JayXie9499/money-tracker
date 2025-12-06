@@ -1,5 +1,5 @@
-import express from 'express';
-import { setupMiddleware } from './middleware';
+import express from "express";
+import { setupMiddleware } from "./middleware";
 
 const app = express();
 
