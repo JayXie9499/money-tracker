@@ -7,16 +7,18 @@ datasource db {
   provider = "postgresql"
 }
 
-model LogLevel {
-  id   Int    @id @default(autoincrement())
-  name String @unique @db.VarChar(10)
-  logs Log[]
+enum LogLevel {
+  TRACE
+  DEBUG
+  INFO
+  WARN
+  ERROR
+  FATAL
 }
 
 model Log {
   id        Int      @id @default(autoincrement())
-  levelId   Int
-  level     LogLevel @relation(fields: [levelId], references: [id])
+  level     LogLevel
   message   String   @db.Text
   details   Json?    @db.JsonB
   timestamp DateTime @default(now()) @db.Timestamptz(3)
