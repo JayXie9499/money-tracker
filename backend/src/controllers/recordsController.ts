@@ -1,13 +1,22 @@
+import { treeifyError } from "zod";
 import prisma from "../core/database";
 import logger from "../core/logger";
 import { CreateRecordSchema, EditRecordSchema } from "../schemas";
-import { parseUserData } from "../utils/parseUserData";
+import { parseUserData, isBigInt } from "../utils";
 import type { Request, Response } from "express";
 
 export async function listRecords(req: Request, res: Response) {
 	const { year, month } = req.query;
+	const yearNum = Number(year);
+	const monthNum = Number(month);
 
-	if (typeof year !== "string" || typeof month !== "string") {
+	if (
+		!Number.isInteger(yearNum) ||
+		!Number.isInteger(monthNum) ||
+		yearNum < 1970 ||
+		monthNum < 1 ||
+		monthNum > 12
+	) {
 		res.status(400).json({ message: "Invalid query parameters" });
 		return;
 	}
@@ -16,8 +25,8 @@ export async function listRecords(req: Request, res: Response) {
 		const records = await prisma.record.findMany({
 			where: {
 				date: {
-					gte: new Date(parseInt(year), parseInt(month) - 1, 1),
-					lt: new Date(parseInt(year), parseInt(month), 1)
+					gte: new Date(yearNum, monthNum - 1, 1),
+					lt: new Date(yearNum, monthNum, 1)
 				}
 			}
 		});
@@ -43,7 +52,10 @@ export async function createRecord(req: Request, res: Response) {
 	const recordData = CreateRecordSchema.safeParse(req.body);
 
 	if (!recordData.success) {
-		res.status(400).json({ message: "Invalid record data" });
+		res.status(400).json({
+			message: "Invalid record data",
+			data: treeifyError(recordData.error).errors
+		});
 		return;
 	}
 
@@ -72,24 +84,21 @@ export async function createRecord(req: Request, res: Response) {
 export async function deleteRecord(req: Request, res: Response) {
 	const { id } = req.params;
 
-	if (isNaN(parseInt(id))) {
+	if (!isBigInt(id)) {
 		res.status(400).json({ message: "Invalid record ID" });
 		return;
 	}
 
 	try {
-		const recordExists = await prisma.record.findUnique({
-			where: { id: parseInt(id) }
+		const { count } = await prisma.record.deleteMany({
+			where: { id: BigInt(id) }
 		});
 
-		if (!recordExists) {
+		if (!count) {
 			res.status(404).json({ message: "Record not found" });
 			return;
 		}
 
-		await prisma.record.delete({
-			where: { id: parseInt(id) }
-		});
 		res.status(200).json({
 			message: "Record deleted successfully"
 		});
@@ -109,7 +118,7 @@ export async function deleteRecord(req: Request, res: Response) {
 export async function editRecord(req: Request, res: Response) {
 	const { id } = req.params;
 
-	if (isNaN(parseInt(id))) {
+	if (!isBigInt(id)) {
 		res.status(400).json({ message: "Invalid record ID" });
 		return;
 	}
@@ -117,28 +126,27 @@ export async function editRecord(req: Request, res: Response) {
 	const recordData = EditRecordSchema.safeParse(req.body);
 
 	if (!recordData.success) {
-		res.status(400).json({ message: "Invalid record data" });
+		res.status(400).json({
+			message: "Invalid record data",
+			data: treeifyError(recordData.error).errors
+		});
 		return;
 	}
 
 	try {
-		const recordExists = await prisma.record.findUnique({
-			where: { id: parseInt(id) }
+		const updatedRecord = await prisma.record.updateManyAndReturn({
+			where: { id: BigInt(id) },
+			data: { ...recordData.data }
 		});
 
-		if (!recordExists) {
+		if (!updatedRecord.length) {
 			res.status(404).json({ message: "Record not found" });
 			return;
 		}
 
-		const updatedRecord = await prisma.record.update({
-			where: { id: parseInt(id) },
-			data: { ...recordData.data }
-		});
-
 		res.status(200).json({
 			message: "Record updated successfully",
-			data: updatedRecord
+			data: updatedRecord[0]
 		});
 	} catch (err) {
 		logger.log({
