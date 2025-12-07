@@ -33,16 +33,14 @@ model Account {
   records        Record[]
 }
 
-model RecordType {
-  id      Int      @id @default(autoincrement())
-  name    String   @unique @db.VarChar(20)
-  records Record[]
+enum RecordType {
+  INCOME
+  EXPENSE
 }
 
 model Record {
   id        BigInt     @id @default(autoincrement())
-  typeId    Int
-  type      RecordType @relation(fields: [typeId], references: [id])
+  type      RecordType
   accountId Int
   account   Account    @relation(fields: [accountId], references: [id])
   amount    Decimal    @db.Decimal(15, 2)
