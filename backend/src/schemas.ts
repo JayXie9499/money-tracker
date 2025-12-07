@@ -20,32 +20,34 @@ export const ConfigSchema = z.object({
 		.string()
 		.min(1, "CORS_ORIGINS is required")
 		.transform((val) => val.split(",").map((origin) => origin.trim()))
-		.refine((origins) => origins.every((origin) => origin.match(URL_REGEX)), {
+		.refine((origins) => origins.every((origin) => URL_REGEX.test(origin)), {
 			error: "CORS_ORIGINS must be a comma-separated list of valid URLs"
 		})
 });
 
+const RecordTypeSchema = z.enum(RecordType);
+const RecordAccountIdSchema = z.number().int().positive();
+const RecordAmountSchema = z.number().positive();
+const RecordDateSchema = z
+	.string()
+	.refine((date) => ISO_REGEX.test(date) && !isNaN(new Date(date).getTime()), {
+		error: "Invalid ISO date string"
+	});
+
 export const CreateRecordSchema = z.object({
-	type: z.enum(RecordType),
-	accountId: z.number().int(),
-	amount: z.number().positive(),
-	date: z
-		.string()
-		.refine(
-			(date) => ISO_REGEX.test(date) && !isNaN(new Date(date).getTime()),
-			{ error: "Invalid ISO date string" }
-		)
+	type: RecordTypeSchema,
+	accountId: RecordAccountIdSchema,
+	amount: RecordAmountSchema,
+	date: RecordDateSchema
 });
 
-export const EditRecordSchema = z.object({
-	type: z.enum(RecordType).optional(),
-	accountId: z.number().int().optional(),
-	amount: z.number().positive().optional(),
-	date: z
-		.string()
-		.refine(
-			(date) => ISO_REGEX.test(date) && !isNaN(new Date(date).getTime()),
-			{ error: "Invalid ISO date string" }
-		)
-		.optional()
-});
+export const EditRecordSchema = z
+	.object({
+		type: RecordTypeSchema.optional(),
+		accountId: RecordAccountIdSchema.optional(),
+		amount: RecordAmountSchema.optional(),
+		date: RecordDateSchema.optional()
+	})
+	.refine((data) => Object.keys(data).length > 0, {
+		error: "At least one field must be provided for update"
+	});
