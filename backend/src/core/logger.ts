@@ -1,8 +1,8 @@
 import winston from "winston";
 import Transport from "winston-transport";
 import prisma from "./database";
-import type { PrismaClient } from "../generated/prisma/client";
-import { LogLevel, type DatabaseTransportOptions } from "../types";
+import type { PrismaClient, LogLevel } from "../generated/prisma/client";
+import type { DatabaseTransportOptions } from "../types";
 
 class DatabaseTransport extends Transport {
 	private prisma: PrismaClient;
@@ -20,7 +20,7 @@ class DatabaseTransport extends Transport {
 		try {
 			await this.prisma.log.create({
 				data: {
-					levelId: LogLevel[info.level.toUpperCase() as keyof typeof LogLevel],
+					level: info.level.toUpperCase() as LogLevel,
 					message: info.message as string,
 					details: (info.details as object) ?? null,
 					timestamp: info.timestamp
@@ -41,7 +41,8 @@ const levels = {
 	error: 1,
 	warn: 2,
 	info: 3,
-	debug: 4
+	debug: 4,
+	trace: 5
 };
 
 winston.addColors({
@@ -49,7 +50,8 @@ winston.addColors({
 	error: "red",
 	warn: "yellow",
 	info: "green",
-	debug: "blue"
+	debug: "blue",
+	trace: "gray"
 });
 
 export default winston.createLogger({
@@ -59,7 +61,7 @@ export default winston.createLogger({
 		new winston.transports.Console({
 			format: winston.format.combine(
 				winston.format.colorize(),
-				winston.format.timestamp({ format: "YYYY/MM/DD-HH:mm:ss" }),
+				winston.format.timestamp(),
 				winston.format.printf(({ timestamp, level, message, details }) =>
 					// Add padding to level for alignment
 					`${timestamp} - ${level.padEnd(7)}${message} ${details ? JSON.stringify(details) : ""}`.trim()
