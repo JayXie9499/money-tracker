@@ -1,9 +1,9 @@
 import express from "express";
-import { setupMiddleware } from "./middleware";
-import { setupRoutes } from "./routes";
 import config from "./core/config";
 import logger from "./core/logger";
 import prisma from "./core/database";
+import { setupMiddleware } from "./middleware";
+import { setupRoutes } from "./routes";
 
 const app = express();
 const shutdown = async () => {
