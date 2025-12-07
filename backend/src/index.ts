@@ -1,5 +1,6 @@
 import express from "express";
 import { setupMiddleware } from "./middleware";
+import { setupRoutes } from "./routes";
 import config from "./core/config";
 import logger from "./core/logger";
 import prisma from "./core/database";
@@ -11,6 +12,7 @@ const shutdown = async () => {
 };
 
 setupMiddleware(app);
+setupRoutes(app);
 
 app.listen(config.PORT, () => {
 	logger.info(`Server is running on port ${config.PORT}`);
