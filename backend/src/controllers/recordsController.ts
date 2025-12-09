@@ -1,4 +1,5 @@
 import { treeifyError } from "zod";
+import { PrismaClientKnownRequestError } from "@prisma/client/runtime/client";
 import prisma from "../core/database";
 import logger from "../core/logger";
 import { CreateRecordSchema, EditRecordSchema } from "../schemas";
@@ -94,19 +95,19 @@ export async function deleteRecord(req: Request, res: Response) {
 	}
 
 	try {
-		const { count } = await prisma.record.deleteMany({
+		await prisma.record.delete({
 			where: { id: BigInt(id) }
 		});
-
-		if (!count) {
-			res.status(404).json({ message: "Record not found" });
-			return;
-		}
 
 		res.status(200).json({
 			message: "Record deleted successfully"
 		});
 	} catch (err) {
+		if (err instanceof PrismaClientKnownRequestError && err.code === "P2025") {
+			res.status(404).json({ message: "Record not found" });
+			return;
+		}
+
 		logger.log({
 			level: "error",
 			message: "Error deleting record",
@@ -140,21 +141,21 @@ export async function editRecord(req: Request, res: Response) {
 	}
 
 	try {
-		const updatedRecord = await prisma.record.updateManyAndReturn({
+		const updatedRecord = await prisma.record.update({
 			where: { id: BigInt(id) },
 			data: { ...recordData.data }
 		});
-
-		if (!updatedRecord.length) {
-			res.status(404).json({ message: "Record not found" });
-			return;
-		}
 
 		res.status(200).json({
 			message: "Record updated successfully",
 			data: updatedRecord[0]
 		});
 	} catch (err) {
+		if (err instanceof PrismaClientKnownRequestError && err.code === "P2025") {
+			res.status(404).json({ message: "Record not found" });
+			return;
+		}
+
 		logger.log({
 			level: "error",
 			message: "Error updating record",
