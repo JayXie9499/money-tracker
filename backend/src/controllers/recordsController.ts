@@ -40,7 +40,9 @@ export async function listRecords(req: Request, res: Response) {
 			level: "error",
 			message: "Error fetching records",
 			details: {
-				err,
+				error: err instanceof Error ? err.message : String(err),
+				stack: err instanceof Error ? err.stack : undefined,
+				raw: err,
 				...parseUserData(req)
 			}
 		});
@@ -73,7 +75,9 @@ export async function createRecord(req: Request, res: Response) {
 			level: "error",
 			message: "Error creating record",
 			details: {
-				err,
+				error: err instanceof Error ? err.message : String(err),
+				stack: err instanceof Error ? err.stack : undefined,
+				raw: err,
 				...parseUserData(req)
 			}
 		});
@@ -107,7 +111,9 @@ export async function deleteRecord(req: Request, res: Response) {
 			level: "error",
 			message: "Error deleting record",
 			details: {
-				err,
+				error: err instanceof Error ? err.message : String(err),
+				stack: err instanceof Error ? err.stack : undefined,
+				raw: err,
 				...parseUserData(req)
 			}
 		});
@@ -153,7 +159,9 @@ export async function editRecord(req: Request, res: Response) {
 			level: "error",
 			message: "Error updating record",
 			details: {
-				err,
+				error: err instanceof Error ? err.message : String(err),
+				stack: err instanceof Error ? err.stack : undefined,
+				raw: err,
 				...parseUserData(req)
 			}
 		});
