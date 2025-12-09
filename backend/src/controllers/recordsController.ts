@@ -7,13 +7,16 @@ import { parseUserData, isBigInt } from "../utils";
 import type { Request, Response } from "express";
 
 export async function listRecords(req: Request, res: Response) {
-	const { year, month } = req.query;
+	const { accountId, year, month } = req.query;
+	const accountIdNum = Number(accountId);
 	const yearNum = Number(year);
 	const monthNum = Number(month);
 
 	if (
+		!Number.isInteger(accountIdNum) ||
 		!Number.isInteger(yearNum) ||
 		!Number.isInteger(monthNum) ||
+		accountIdNum < 1 ||
 		yearNum < 1970 ||
 		monthNum < 1 ||
 		monthNum > 12
@@ -25,6 +28,7 @@ export async function listRecords(req: Request, res: Response) {
 	try {
 		const records = await prisma.record.findMany({
 			where: {
+				accountId: accountIdNum,
 				date: {
 					gte: new Date(yearNum, monthNum - 1, 1),
 					lt: new Date(yearNum, monthNum, 1)
