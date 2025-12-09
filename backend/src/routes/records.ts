@@ -6,7 +6,7 @@ import {
 	listRecords
 } from "../controllers/recordsController";
 
-const router = Router();
+const router: Router = Router();
 
 router.get("/", listRecords);
 

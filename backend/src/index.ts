@@ -5,7 +5,7 @@ import prisma from "./core/database";
 import { setupMiddleware } from "./middleware";
 import { setupRoutes } from "./routes";
 
-const app = express();
+const app: express.Express = express();
 const shutdown = async () => {
 	await prisma.$disconnect();
 	process.exit(0);
