@@ -3,7 +3,7 @@ import { PrismaClientKnownRequestError } from "@prisma/client/runtime/client";
 import prisma from "../core/database";
 import logger from "../core/logger";
 import { CreateRecordSchema, EditRecordSchema } from "../schemas";
-import { parseUserData, isBigInt } from "../utils";
+import { parseUserData, isBigInt, serializeData } from "../utils";
 import type { Request, Response } from "express";
 
 export async function listRecords(req: Request, res: Response) {
@@ -38,7 +38,7 @@ export async function listRecords(req: Request, res: Response) {
 
 		res.status(200).json({
 			message: "Records fetched successfully",
-			data: records
+			data: serializeData(records)
 		});
 	} catch (err) {
 		logger.log({
@@ -73,7 +73,7 @@ export async function createRecord(req: Request, res: Response) {
 
 		res.status(201).json({
 			message: "Record created successfully",
-			data: record
+			data: serializeData(record)
 		});
 	} catch (err) {
 		logger.log({
@@ -152,7 +152,7 @@ export async function editRecord(req: Request, res: Response) {
 
 		res.status(200).json({
 			message: "Record updated successfully",
-			data: updatedRecord[0]
+			data: serializeData(updatedRecord)
 		});
 	} catch (err) {
 		if (err instanceof PrismaClientKnownRequestError && err.code === "P2025") {
