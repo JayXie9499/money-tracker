@@ -2,7 +2,7 @@ import { treeifyError } from "zod";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/client";
 import prisma from "../core/database";
 import logger from "../core/logger";
-import { CreateRecordSchema, EditRecordSchema } from "../schemas";
+import { RecordSchema } from "../schemas";
 import { parseUserData, isBigInt, serializeData } from "../utils";
 import type { Request, Response } from "express";
 
@@ -56,7 +56,7 @@ export async function listRecords(req: Request, res: Response) {
 }
 
 export async function createRecord(req: Request, res: Response) {
-	const recordData = CreateRecordSchema.safeParse(req.body);
+	const recordData = RecordSchema.safeParse(req.body);
 
 	if (!recordData.success) {
 		res.status(400).json({
@@ -134,7 +134,7 @@ export async function editRecord(req: Request, res: Response) {
 		return;
 	}
 
-	const recordData = EditRecordSchema.safeParse(req.body);
+	const recordData = RecordSchema.partial().safeParse(req.body);
 
 	if (!recordData.success) {
 		res.status(400).json({

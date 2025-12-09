@@ -25,29 +25,19 @@ export const ConfigSchema = z.object({
 		})
 });
 
-const RecordTypeSchema = z.enum(RecordType);
-const RecordAccountIdSchema = z.number().int().positive();
-const RecordAmountSchema = z.number().positive();
-const RecordDateSchema = z
-	.string()
-	.refine((date) => ISO_REGEX.test(date) && !isNaN(new Date(date).getTime()), {
-		error: "Invalid ISO date string"
-	});
-
-export const CreateRecordSchema = z.object({
-	type: RecordTypeSchema,
-	accountId: RecordAccountIdSchema,
-	amount: RecordAmountSchema,
-	date: RecordDateSchema
+export const RecordSchema = z.object({
+	type: z.enum(RecordType),
+	accountId: z.number().int().positive(),
+	amount: z.number().positive(),
+	date: z
+		.string()
+		.refine(
+			(date) => ISO_REGEX.test(date) && !isNaN(new Date(date).getTime()),
+			{ error: "Invalid ISO date string" }
+		)
 });
 
-export const EditRecordSchema = z
-	.object({
-		type: RecordTypeSchema.optional(),
-		accountId: RecordAccountIdSchema.optional(),
-		amount: RecordAmountSchema.optional(),
-		date: RecordDateSchema.optional()
-	})
-	.refine((data) => Object.keys(data).length > 0, {
-		error: "At least one field must be provided for update"
-	});
+export const AccountSchema = z.object({
+	name: z.string().min(1, "Account name is required"),
+	defaultBalance: z.number().min(0, "Initial balance cannot be negative")
+});
