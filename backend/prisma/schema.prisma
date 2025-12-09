@@ -28,8 +28,6 @@ model Account {
   id             Int      @id @default(autoincrement())
   name           String   @unique @db.VarChar(50)
   defaultBalance Decimal  @default(0) @db.Decimal(15, 2)
-  totalIncome    Decimal  @default(0) @db.Decimal(15, 2)
-  totalExpense   Decimal  @default(0) @db.Decimal(15, 2)
   records        Record[]
 }
 
