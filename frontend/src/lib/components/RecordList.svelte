@@ -23,9 +23,7 @@
 			return;
 		}
 
-		for (const id of selectedIds) {
-			await finance.deleteRecord(id);
-		}
+		await Promise.all(Array.from(selectedIds).map((id) => finance.deleteRecord(id)));
 		selectedIds = new Set();
 	}
 
@@ -89,9 +87,7 @@
 
 						<div
 							class="w-10 h-10 rounded-full flex items-center justify-center shrink-0
-				{record.type === 'INCOME'
-								? 'bg-emerald-500/10 text-emerald-500'
-								: 'bg-rose-500/10 text-rose-500'}"
+				{record.type === 'INCOME' ? 'bg-emerald-500/10 text-emerald-500' : 'bg-rose-500/10 text-rose-500'}"
 						>
 							{#if record.type === 'INCOME'}
 								<TrendingUp size={18} />
