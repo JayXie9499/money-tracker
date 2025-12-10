@@ -5,7 +5,7 @@ class FinanceApp {
 	accounts = $state<AccountWithTotals[]>([]);
 	records = $state<Record[]>([]);
 	selectedAccountId = $state<number>();
-	currentDate = $state(new Date());
+	currentDate = $state(new SvelteDate());
 	loading = $state(false);
 
 	constructor() {
@@ -23,7 +23,7 @@ class FinanceApp {
 	get filteredRecords() {
 		return this.records
 			.slice()
-			.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+			.sort((a, b) => new SvelteDate(b.date).getTime() - new SvelteDate(a.date).getTime());
 	}
 
 	async fetchAccounts() {
