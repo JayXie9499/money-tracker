@@ -128,7 +128,11 @@ export async function editAccount(req: Request, res: Response) {
 		return;
 	}
 
-	const accountData = AccountSchema.partial().safeParse(req.body);
+	const accountData = AccountSchema.partial()
+		.refine((data) => Object.keys(data).length > 0, {
+			message: "At least one field must be provided for update"
+		})
+		.safeParse(req.body);
 
 	if (!accountData.success) {
 		res.status(400).json({
