@@ -12,6 +12,10 @@
 	const dateDisplay = $derived(
 		finance.currentDate.toLocaleDateString('zh-TW', { year: 'numeric', month: 'long' })
 	);
+	const accountsWithBalance = $derived(finance.accounts.map((account) => ({
+		...account,
+		balance: Number(account.defaultBalance) + Number(account.totalIncome) - Number(account.totalExpense)
+	})));
 </script>
 
 <div class="min-h-screen bg-zinc-950 text-zinc-100 font-sans pb-20">
@@ -36,12 +40,10 @@
 			<h2 class="text-xs font-bold text-zinc-500 uppercase tracking-wider mb-3">Accounts</h2>
 
 			<div class="flex gap-3 overflow-x-auto pb-4 snap-x snap-mandatory no-scrollbar">
-				{#each finance.accounts as account (account.id)}
+				{#each accountsWithBalance as account (account.id)}
 					<AccountCard
 						name={account.name}
-						balance={Number(account.defaultBalance) +
-							Number(account.totalIncome) -
-							Number(account.totalExpense)}
+						balance={account.balance}
 						isActive={finance.selectedAccountId === account.id}
 						onclick={() => finance.selectAccount(account.id)}
 					/>
