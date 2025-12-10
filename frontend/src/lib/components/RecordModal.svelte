@@ -112,8 +112,8 @@
 						bind:value={accountId}
 						class="w-full bg-zinc-950 border border-zinc-800 rounded-xl p-3 text-sm text-white focus:outline-none focus:border-indigo-500 appearance-none"
 					>
-						{#each finance.accounts as acc (acc.id)}
-							<option value={acc.id}>{acc.name}</option>
+						{#each finance.accounts as account (account.id)}
+							<option value={account.id}>{account.name}</option>
 						{/each}
 					</select>
 				</div>
