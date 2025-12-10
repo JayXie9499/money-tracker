@@ -19,7 +19,7 @@
 	}
 
 	async function batchDelete() {
-		if (!confirm(`確定刪除 ${selectedIds.size} 筆紀錄?`)) {
+		if (!confirm(`Delete ${selectedIds.size} record(s)?`)) {
 			return;
 		}
 
@@ -53,7 +53,7 @@
 			onclick={batchDelete}
 			class="bg-rose-600 text-white px-6 py-2 rounded-full shadow-lg flex items-center gap-2 font-bold text-sm"
 		>
-			<Trash2 size={16} /> 刪除 ({selectedIds.size})
+			<Trash2 size={16} /> Delete ({selectedIds.size})
 		</button>
 	</div>
 {/if}
@@ -73,7 +73,7 @@
 					<!-- svelte-ignore a11y_no_static_element_interactions -->
 					<div
 						class="group relative flex items-center gap-3 p-3 rounded-xl border transition-all cursor-pointer
-            {selectedIds.has(record.id)
+			{selectedIds.has(record.id)
 							? 'bg-zinc-800 border-indigo-500/50'
 							: 'bg-zinc-900/50 border-zinc-800 hover:bg-zinc-900'}"
 						onclick={() => toggleSelect(record.id)}
@@ -89,7 +89,7 @@
 
 						<div
 							class="w-10 h-10 rounded-full flex items-center justify-center shrink-0
-              {record.type === 'INCOME'
+				{record.type === 'INCOME'
 								? 'bg-emerald-500/10 text-emerald-500'
 								: 'bg-rose-500/10 text-rose-500'}"
 						>
@@ -122,6 +122,6 @@
 	{/each}
 
 	{#if finance.records.length === 0 && !finance.loading}
-		<div class="text-center text-zinc-600 py-10">此月份尚無紀錄</div>
+		<div class="text-center text-zinc-600 py-10">No records found</div>
 	{/if}
 </div>

@@ -18,7 +18,7 @@
 			await finance.createAccount({ name, defaultBalance: Number(balance) || 0 });
 			close();
 		} catch (e) {
-			alert('無法建立帳戶，請檢查名稱是否重複');
+			alert('Unable to create account, please check if the name is duplicated');
 			console.error(e);
 		} finally {
 			isSubmitting = false;

@@ -31,7 +31,7 @@
 	</header>
 
 	<main class="max-w-md mx-auto p-4 space-y-6">
-		<!-- 帳戶區塊 -->
+		<!-- Account Section -->
 		<section>
 			<h2 class="text-xs font-bold text-zinc-500 uppercase tracking-wider mb-3">Accounts</h2>
 
@@ -51,7 +51,7 @@
 			</div>
 		</section>
 
-		<!-- 紀錄列表 -->
+		<!-- Record List -->
 		<section>
 			<div class="flex justify-between items-end mb-3">
 				<h2 class="text-xs font-bold text-zinc-500 uppercase tracking-wider">Transactions</h2>

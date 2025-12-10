@@ -33,14 +33,14 @@
 	{onclick}
 	type="button"
 >
-	<!-- 裝飾性背景光暈 (僅 Active 時顯示) -->
+	<!-- Decorative background glow (shown only when Active) -->
 	{#if isActive}
 		<div
 			class="absolute -top-2 -right-2 w-20 h-20 bg-white/10 blur-2xl rounded-full pointer-events-none"
 		></div>
 	{/if}
 
-	<!-- 標題區 -->
+	<!-- Title section -->
 	<div class="flex items-center gap-2 z-10 w-full">
 		<span
 			class="text-sm font-medium truncate w-full {isActive
@@ -51,7 +51,7 @@
 		</span>
 	</div>
 
-	<!-- 金額區 -->
+	<!-- Amount section -->
 	<div class="z-10">
 		<span
 			class="text-[10px] uppercase tracking-wider font-bold mb-0.5 block {isActive
