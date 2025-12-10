@@ -72,7 +72,7 @@ class FinanceApp {
 			const res = await api.records.create(data);
 
 			this.records.unshift(res.data);
-			this.fetchAccounts();
+			await this.fetchAccounts();
 		} catch (e) {
 			console.error(e);
 		}
@@ -82,7 +82,7 @@ class FinanceApp {
 		try {
 			await api.records.remove(id);
 			this.records = this.records.filter((r) => r.id !== id);
-			this.fetchAccounts();
+			await this.fetchAccounts();
 		} catch (e) {
 			console.error(e);
 		}
