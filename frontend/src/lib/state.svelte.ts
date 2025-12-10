@@ -75,9 +75,13 @@ class FinanceApp {
 	}
 
 	async deleteRecord(id: string) {
-		await api.records.remove(id);
-		this.records = this.records.filter((r) => r.id !== id);
-		this.fetchAccounts();
+		try {
+			await api.records.remove(id);
+			this.records = this.records.filter((r) => r.id !== id);
+			this.fetchAccounts();
+		} catch (e) {
+			console.error(e);
+		}
 	}
 
 	setMonth(offset: number) {
