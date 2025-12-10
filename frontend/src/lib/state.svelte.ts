@@ -68,10 +68,14 @@ class FinanceApp {
 	}
 
 	async addRecord(data: Omit<Record, 'id'>) {
-		const res = await api.records.create(data);
+		try {
+			const res = await api.records.create(data);
 
-		this.records.unshift(res.data);
-		this.fetchAccounts();
+			this.records.unshift(res.data);
+			this.fetchAccounts();
+		} catch (e) {
+			console.error(e);
+		}
 	}
 
 	async deleteRecord(id: string) {
