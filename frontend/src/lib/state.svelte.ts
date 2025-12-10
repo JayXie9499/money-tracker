@@ -81,9 +81,12 @@ class FinanceApp {
 	}
 
 	setMonth(offset: number) {
-		const newDate = new SvelteDate(this.currentDate);
+		const newDate = new SvelteDate(
+			this.currentDate.getFullYear(),
+			this.currentDate.getMonth() + offset,
+			1
+		);
 
-		newDate.setMonth(newDate.getMonth() + offset);
 		this.currentDate = newDate;
 		this.fetchRecords();
 	}
