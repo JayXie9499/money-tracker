@@ -36,14 +36,14 @@
 			<h2 class="text-xs font-bold text-zinc-500 uppercase tracking-wider mb-3">Accounts</h2>
 
 			<div class="flex gap-3 overflow-x-auto pb-4 snap-x snap-mandatory no-scrollbar">
-				{#each finance.accounts as acc (acc.id)}
+				{#each finance.accounts as account (account.id)}
 					<AccountCard
-						name={acc.name}
-						balance={Number(acc.defaultBalance) +
-							Number(acc.totalIncome) -
-							Number(acc.totalExpense)}
-						isActive={finance.selectedAccountId === acc.id}
-						onclick={() => finance.selectAccount(acc.id)}
+						name={account.name}
+						balance={Number(account.defaultBalance) +
+							Number(account.totalIncome) -
+							Number(account.totalExpense)}
+						isActive={finance.selectedAccountId === account.id}
+						onclick={() => finance.selectAccount(account.id)}
 					/>
 				{/each}
 
