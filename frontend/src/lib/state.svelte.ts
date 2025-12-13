@@ -88,6 +88,21 @@ class FinanceApp {
 		}
 	}
 
+	async updateRecord(id: string, data: Partial<Omit<Record, 'id'>>) {
+		try {
+			const res = await api.records.update(id, data);
+			const index = this.records.findIndex((r) => r.id === id);
+
+			if (index !== -1) {
+				this.records[index] = res.data;
+			}
+
+			await this.fetchAccounts();
+		} catch (e) {
+			console.error(e);
+		}
+	}
+
 	setMonth(offset: number) {
 		const newDate = new SvelteDate(
 			this.currentDate.getFullYear(),

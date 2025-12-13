@@ -6,16 +6,31 @@
 	import RecordList from '$lib/components/RecordList.svelte';
 	import RecordModal from '$lib/components/RecordModal.svelte';
 	import { Plus, ChevronLeft, ChevronRight } from 'lucide-svelte';
+	import type { Record } from '$lib/api';
 
 	let isRecordModalOpen = $state(false);
 	let isAccountModalOpen = $state(false);
+	let editingRecord = $state<Record | null>(null);
 	const dateDisplay = $derived(
 		finance.currentDate.toLocaleDateString('zh-TW', { year: 'numeric', month: 'long' })
 	);
-	const accountsWithBalance = $derived(finance.accounts.map((account) => ({
-		...account,
-		balance: Number(account.defaultBalance) + Number(account.totalIncome) - Number(account.totalExpense)
-	})));
+	const accountsWithBalance = $derived(
+		finance.accounts.map((account) => ({
+			...account,
+			balance:
+				Number(account.defaultBalance) + Number(account.totalIncome) - Number(account.totalExpense)
+		}))
+	);
+
+	function openEdit(record: Record) {
+		editingRecord = record;
+		isRecordModalOpen = true;
+	}
+
+	function openCreate() {
+		editingRecord = null;
+		isRecordModalOpen = true;
+	}
 </script>
 
 <div class="min-h-screen bg-zinc-950 text-zinc-100 font-sans pb-20">
@@ -63,13 +78,13 @@
 				</span>
 			</div>
 
-			<RecordList />
+			<RecordList onEdit={openEdit} />
 		</section>
 	</main>
 
 	<!-- FAB -->
 	<button
-		onclick={() => (isRecordModalOpen = true)}
+		onclick={openCreate}
 		class="fixed bottom-6 right-6 w-14 h-14 bg-indigo-600 hover:bg-indigo-500 text-white rounded-full shadow-lg shadow-indigo-900/50 flex items-center justify-center z-30 transition-transform active:scale-90"
 	>
 		<Plus size={28} />
@@ -77,7 +92,7 @@
 
 	<!-- Modal -->
 	{#if isRecordModalOpen}
-		<RecordModal close={() => (isRecordModalOpen = false)} />
+		<RecordModal close={() => (isRecordModalOpen = false)} initialData={editingRecord} />
 	{/if}
 
 	{#if isAccountModalOpen}
