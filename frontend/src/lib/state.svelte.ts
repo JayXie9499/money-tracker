@@ -44,8 +44,23 @@ class FinanceApp {
 		}
 	}
 
+	async deleteAccount(id: number) {
+		try {
+			await api.accounts.remove(id);
+			this.accounts = this.accounts.filter((a) => a.id !== id);
+
+			if (this.selectedAccountId === id) {
+				this.selectedAccountId = this.accounts.length ? this.accounts[0].id : undefined;
+				await this.fetchRecords();
+			}
+		} catch (e) {
+			console.error(e);
+		}
+	}
+
 	async fetchRecords() {
 		if (!this.selectedAccountId) {
+			this.records = [];
 			return;
 		}
 

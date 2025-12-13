@@ -6,7 +6,7 @@
 	import RecordList from '$lib/components/RecordList.svelte';
 	import RecordModal from '$lib/components/RecordModal.svelte';
 	import { Plus, ChevronLeft, ChevronRight } from 'lucide-svelte';
-	import type { Record } from '$lib/api';
+	import type { Account, Record } from '$lib/api';
 
 	let isRecordModalOpen = $state(false);
 	let isAccountModalOpen = $state(false);
@@ -21,6 +21,18 @@
 				Number(account.defaultBalance) + Number(account.totalIncome) - Number(account.totalExpense)
 		}))
 	);
+
+	async function handleDeleteAccount(account: Account) {
+    if (!confirm(`Are you sure you want to delete "${account.name}"? This will remove all associated records.`)) {
+      return;
+    }
+
+    try {
+      await finance.deleteAccount(account.id);
+    } catch (e) {
+      alert('Failed to delete account');
+    }
+  }
 
 	function openEdit(record: Record) {
 		editingRecord = record;
@@ -61,6 +73,7 @@
 						balance={account.balance}
 						isActive={finance.selectedAccountId === account.id}
 						onclick={() => finance.selectAccount(account.id)}
+						onDelete={() => handleDeleteAccount(account)}
 					/>
 				{/each}
 
