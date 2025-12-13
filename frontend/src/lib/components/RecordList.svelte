@@ -1,9 +1,10 @@
 <script lang="ts">
 	import { SvelteSet } from 'svelte/reactivity';
 	import { finance } from '$lib/state.svelte';
-	import { Trash2, TrendingUp, TrendingDown } from 'lucide-svelte';
+	import { Trash2, TrendingUp, TrendingDown, Pencil } from 'lucide-svelte';
 	import type { Record } from '$lib/api';
 
+	let { onEdit }: { onEdit: (r: Record) => void } = $props();
 	let selectedIds = $state(new Set<string>());
 
 	function toggleSelect(id: string) {
@@ -71,23 +72,21 @@
 					<!-- svelte-ignore a11y_no_static_element_interactions -->
 					<div
 						class="group relative flex items-center gap-3 p-3 rounded-xl border transition-all cursor-pointer
-			{selectedIds.has(record.id)
+							{selectedIds.has(record.id)
 							? 'bg-zinc-800 border-indigo-500/50'
 							: 'bg-zinc-900/50 border-zinc-800 hover:bg-zinc-900'}"
 						onclick={() => toggleSelect(record.id)}
 					>
 						<!-- Checkbox Indicator -->
 						<div
-							class="w-1 h-full absolute left-0 top-0 rounded-l-xl transition-colors {selectedIds.has(
-								record.id
-							)
-								? 'bg-indigo-500'
-								: 'bg-transparent'}"
+							class="w-1 h-full absolute left-0 top-0 rounded-l-xl transition-colors
+							{selectedIds.has(record.id) ? 'bg-indigo-500' : 'bg-transparent'}"
 						></div>
 
+						<!-- Icon -->
 						<div
 							class="w-10 h-10 rounded-full flex items-center justify-center shrink-0
-				{record.type === 'INCOME' ? 'bg-emerald-500/10 text-emerald-500' : 'bg-rose-500/10 text-rose-500'}"
+							{record.type === 'INCOME' ? 'bg-emerald-500/10 text-emerald-500' : 'bg-rose-500/10 text-rose-500'}"
 						>
 							{#if record.type === 'INCOME'}
 								<TrendingUp size={18} />
@@ -96,6 +95,7 @@
 							{/if}
 						</div>
 
+						<!-- Content -->
 						<div class="flex-1">
 							<div class="flex justify-between items-baseline">
 								<span class="text-zinc-300 font-medium">
@@ -111,6 +111,26 @@
 								</span>
 							</div>
 						</div>
+
+						<!-- Edit Button -->
+						<button
+							type="button"
+							onclick={(e) => {
+								e.stopPropagation();
+								onEdit(record);
+							}}
+							class="
+                p-2 rounded-lg text-zinc-500
+                hover:text-white hover:bg-zinc-700
+                active:bg-zinc-600 active:scale-95
+                transition-all duration-200
+                opacity-100 sm:opacity-0 sm:group-hover:opacity-100
+                focus:opacity-100 focus:outline-none
+              "
+							aria-label="Edit record"
+						>
+							<Pencil size={16} />
+						</button>
 					</div>
 				{/each}
 			</div>
