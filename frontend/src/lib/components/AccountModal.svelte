@@ -2,7 +2,7 @@
 	import { finance } from '$lib/state.svelte';
 	import { X, Wallet } from 'lucide-svelte';
 
-	let { close } = $props<{ close: () => void }>();
+	let { close }: { close: () => void } = $props();
 	let name = $state('');
 	let balance = $state('');
 	let isSubmitting = $state(false);

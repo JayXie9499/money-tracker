@@ -4,12 +4,12 @@
 		balance,
 		isActive = false,
 		onclick
-	} = $props<{
+	}: {
 		name: string;
 		balance: number;
 		isActive?: boolean;
 		onclick?: () => void;
-	}>();
+	} = $props();
 
 	const activeStyles =
 		'bg-emerald-600 border-emerald-500 shadow-lg shadow-emerald-900/40 ring-emerald-500';

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Plus } from 'lucide-svelte';
 
-	let { onclick } = $props<{ onclick: () => void }>();
+	let { onclick }: { onclick: () => void } = $props();
 </script>
 
 <button
