@@ -120,13 +120,13 @@
 								onEdit(record);
 							}}
 							class="
-                p-2 rounded-lg text-zinc-500
-                hover:text-white hover:bg-zinc-700
-                active:bg-zinc-600 active:scale-95
-                transition-all duration-200
-                opacity-100 sm:opacity-0 sm:group-hover:opacity-100
-                focus:opacity-100 focus:outline-none
-              "
+								p-2 rounded-lg text-zinc-500
+								hover:text-white hover:bg-zinc-700
+								active:bg-zinc-600 active:scale-95
+								transition-all duration-200
+								opacity-100 sm:opacity-0 sm:group-hover:opacity-100
+								focus:opacity-100 focus:outline-none
+							"
 							aria-label="Edit record"
 						>
 							<Pencil size={16} />

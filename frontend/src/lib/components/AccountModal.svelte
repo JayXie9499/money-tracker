@@ -57,9 +57,9 @@
 		<div class="p-5 space-y-5">
 			<!-- Account Name -->
 			<div>
-				<label class="block text-xs font-bold text-zinc-500 uppercase mb-2" for="acc-name"
-					>Account Name</label
-				>
+				<label class="block text-xs font-bold text-zinc-500 uppercase mb-2" for="acc-name">
+					Account Name
+				</label>
 
 				<input
 					id="acc-name"
@@ -73,9 +73,9 @@
 
 			<!-- Initial Balance -->
 			<div>
-				<label class="block text-xs font-bold text-zinc-500 uppercase mb-2" for="acc-balance"
-					>Initial Balance</label
-				>
+				<label class="block text-xs font-bold text-zinc-500 uppercase mb-2" for="acc-balance">
+					Initial Balance
+				</label>
 
 				<div class="relative">
 					<span class="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500 font-mono">$</span>

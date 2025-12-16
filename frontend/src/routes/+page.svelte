@@ -23,17 +23,21 @@
 	);
 
 	async function handleDeleteAccount(account: Account) {
-    if (!confirm(`Are you sure you want to delete "${account.name}"? This will remove all associated records.`)) {
-      return;
-    }
+		if (
+			!confirm(
+				`Are you sure you want to delete "${account.name}"? This will remove all associated records.`
+			)
+		) {
+			return;
+		}
 
-    try {
-      await finance.deleteAccount(account.id);
-    } catch (err) {
+		try {
+			await finance.deleteAccount(account.id);
+		} catch (err) {
 			console.error(err);
-      alert('Failed to delete account');
-    }
-  }
+			alert('Failed to delete account');
+		}
+	}
 
 	function openEdit(record: Record) {
 		editingRecord = record;

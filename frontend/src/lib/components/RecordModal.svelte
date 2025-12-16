@@ -81,6 +81,7 @@
 			<h3 class="font-bold text-lg text-zinc-100">
 				{initialData ? 'Edit Transaction' : 'New Transaction'}
 			</h3>
+
 			<button
 				type="button"
 				onclick={close}
@@ -115,13 +116,15 @@
 
 			<!-- Amount -->
 			<div>
-				<label class="block text-xs font-bold text-zinc-500 uppercase mb-2" for="amount"
-					>Amount</label
-				>
+				<label class="block text-xs font-bold text-zinc-500 uppercase mb-2" for="amount">
+					Amount
+				</label>
+
 				<div class="relative">
-					<span class="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-400 font-mono text-xl"
-						>$</span
-					>
+					<span class="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-400 font-mono text-xl">
+						$
+					</span>
+
 					<input
 						id="amount"
 						type="number"
@@ -135,8 +138,10 @@
 			<!-- Details -->
 			<div class="grid grid-cols-2 gap-4">
 				<div>
-					<label class="block text-xs font-bold text-zinc-500 uppercase mb-2" for="date">Date</label
-					>
+					<label class="block text-xs font-bold text-zinc-500 uppercase mb-2" for="date">
+						Date
+					</label>
+
 					<input
 						id="date"
 						type="date"
@@ -144,10 +149,12 @@
 						class="w-full bg-zinc-950 border border-zinc-800 rounded-xl p-3 text-sm text-white focus:outline-none focus:border-indigo-500 transition-colors"
 					/>
 				</div>
+
 				<div>
-					<label class="block text-xs font-bold text-zinc-500 uppercase mb-2" for="account"
-						>Account</label
-					>
+					<label class="block text-xs font-bold text-zinc-500 uppercase mb-2" for="account">
+						Account
+					</label>
+
 					<select
 						id="account"
 						bind:value={accountId}
