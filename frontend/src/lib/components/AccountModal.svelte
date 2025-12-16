@@ -17,9 +17,9 @@
 		try {
 			await finance.createAccount({ name, defaultBalance: Number(balance) || 0 });
 			close();
-		} catch (e) {
+		} catch (err) {
 			alert('Unable to create account, please check if the name is duplicated');
-			console.error(e);
+			console.error(err);
 		} finally {
 			isSubmitting = false;
 		}
