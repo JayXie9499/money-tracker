@@ -42,6 +42,10 @@
 				if (initialData.date.split('T')[0] !== date) {
 					Object.assign(payload, { date: new SvelteDate(date).toISOString() });
 				}
+				if (Object.keys(payload).length === 0) {
+					close();
+					return;
+				}
 
 				await finance.updateRecord(initialData.id, payload);
 			} else {
@@ -52,13 +56,13 @@
 					date: new SvelteDate(date).toISOString()
 				});
 			}
+			close();
 		} catch (err) {
 			console.error(err);
 			alert('Operation failed.');
 		} finally {
 			isSubmitting = false;
 		}
-		close();
 	}
 </script>
 
