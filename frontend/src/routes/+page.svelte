@@ -29,7 +29,8 @@
 
     try {
       await finance.deleteAccount(account.id);
-    } catch (e) {
+    } catch (err) {
+			console.error(err);
       alert('Failed to delete account');
     }
   }

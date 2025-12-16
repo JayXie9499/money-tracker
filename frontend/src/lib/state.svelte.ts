@@ -30,8 +30,8 @@ class FinanceApp {
 		try {
 			const res = await api.accounts.list();
 			this.accounts = res.data.sort((a, b) => a.id - b.id);
-		} catch (e) {
-			console.error(e);
+		} catch (err) {
+			console.error(err);
 		}
 	}
 
@@ -39,8 +39,8 @@ class FinanceApp {
 		try {
 			const res = await api.accounts.create(data);
 			this.accounts.push(res.data);
-		} catch (e) {
-			console.error(e);
+		} catch (err) {
+			console.error(err);
 		}
 	}
 
@@ -53,8 +53,8 @@ class FinanceApp {
 				this.selectedAccountId = this.accounts.length ? this.accounts[0].id : undefined;
 				await this.fetchRecords();
 			}
-		} catch (e) {
-			console.error(e);
+		} catch (err) {
+			console.error(err);
 		}
 	}
 
@@ -75,8 +75,8 @@ class FinanceApp {
 			});
 
 			this.records = res.data;
-		} catch (e) {
-			console.error(e);
+		} catch (err) {
+			console.error(err);
 		} finally {
 			this.loading = false;
 		}
@@ -88,8 +88,8 @@ class FinanceApp {
 
 			this.records.unshift(res.data);
 			await this.fetchAccounts();
-		} catch (e) {
-			console.error(e);
+		} catch (err) {
+			console.error(err);
 		}
 	}
 
@@ -98,8 +98,8 @@ class FinanceApp {
 			await api.records.remove(id);
 			this.records = this.records.filter((r) => r.id !== id);
 			await this.fetchAccounts();
-		} catch (e) {
-			console.error(e);
+		} catch (err) {
+			console.error(err);
 		}
 	}
 
@@ -113,8 +113,8 @@ class FinanceApp {
 			}
 
 			await this.fetchAccounts();
-		} catch (e) {
-			console.error(e);
+		} catch (err) {
+			console.error(err);
 		}
 	}
 
