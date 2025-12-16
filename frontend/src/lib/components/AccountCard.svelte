@@ -30,11 +30,11 @@
 <div class="relative group/card snap-center shrink-0">
 	<button
 		class="
-      w-40 p-4 h-28 rounded-2xl border transition-all duration-300
-      flex flex-col justify-between text-left relative overflow-hidden outline-none
-      focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950
-      {isActive ? `${activeStyles} scale-[1.02]` : inactiveStyles}
-    "
+			w-40 p-4 h-28 rounded-2xl border transition-all duration-300
+			flex flex-col justify-between text-left relative overflow-hidden outline-none
+			focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950
+			{isActive ? `${activeStyles} scale-[1.02]` : inactiveStyles}
+		"
 		{onclick}
 		type="button"
 	>
@@ -80,13 +80,12 @@
 			onDelete();
 		}}
 		class="
-        absolute top-2 right-2 p-1.5 rounded-full z-20
-        transition-all duration-200
-        opacity-100 sm:opacity-0 sm:group-hover/card:opacity-100
-        {isActive
+			absolute top-2 right-2 p-1.5 rounded-full z-20
+			transition-all duration-200
+			opacity-100 sm:opacity-0 sm:group-hover/card:opacity-100 {isActive
 			? 'text-white/50 hover:text-white hover:bg-rose-500/40'
 			: 'text-zinc-600 hover:text-rose-400 hover:bg-zinc-800'}
-      "
+		"
 		aria-label="Delete Account"
 		title="Delete Account"
 	>
