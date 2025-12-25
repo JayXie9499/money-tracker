@@ -126,7 +126,13 @@
 	{/if}
 
 	{#if isAccountModalOpen}
-		<AccountModal close={() => (isAccountModalOpen = false)} initialData={editingAccount} />
+		<AccountModal
+			close={() => {
+				isAccountModalOpen = false;
+				editingAccount = null;
+			}}
+			initialData={editingAccount}
+		/>
 	{/if}
 </div>
 
