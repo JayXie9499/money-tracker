@@ -10,6 +10,7 @@
 
 	let isRecordModalOpen = $state(false);
 	let isAccountModalOpen = $state(false);
+	let editingAccount = $state<Account | null>(null);
 	let editingRecord = $state<Record | null>(null);
 	const dateDisplay = $derived(
 		finance.currentDate.toLocaleDateString('zh-TW', { year: 'numeric', month: 'long' })
@@ -37,6 +38,16 @@
 			console.error(err);
 			alert('Failed to delete account');
 		}
+	}
+
+	function openAccountEdit(account: Account) {
+		editingAccount = account;
+		isAccountModalOpen = true;
+	}
+
+	function openAccountCreate() {
+		editingAccount = null;
+		isAccountModalOpen = true;
 	}
 
 	function openEdit(record: Record) {
@@ -79,10 +90,11 @@
 						isActive={finance.selectedAccountId === account.id}
 						onclick={() => finance.selectAccount(account.id)}
 						onDelete={() => handleDeleteAccount(account)}
+						onEdit={() => openAccountEdit(account)}
 					/>
 				{/each}
 
-				<AccountAddCard onclick={() => (isAccountModalOpen = true)} />
+				<AccountAddCard onclick={openAccountCreate} />
 			</div>
 		</section>
 
@@ -114,7 +126,7 @@
 	{/if}
 
 	{#if isAccountModalOpen}
-		<AccountModal close={() => (isAccountModalOpen = false)} />
+		<AccountModal close={() => (isAccountModalOpen = false)} initialData={editingAccount} />
 	{/if}
 </div>
 
