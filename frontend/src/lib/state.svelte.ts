@@ -50,8 +50,12 @@ class FinanceApp {
 			const index = this.accounts.findIndex((a) => a.id === id);
 
 			if (index !== -1) {
-				Object.assign(this.accounts[index], res.data);
+				this.accounts[index] = {
+					...this.accounts[index],
+					...res.data
+				};
 			}
+			await this.fetchAccounts();
 		} catch (err) {
 			console.error(err);
 		}
