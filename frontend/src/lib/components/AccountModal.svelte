@@ -111,7 +111,7 @@
 				class="px-6 py-2 rounded-xl text-sm font-bold bg-indigo-600 hover:bg-indigo-500 text-white transition-all disabled:opacity-50 disabled:cursor-not-allowed"
 			>
 				{#if isSubmitting}
-					Running...
+					{initialData ? 'Saving...' : 'Creating...'}
 				{:else}
 					{initialData ? 'Save' : 'Create Account'}
 				{/if}
