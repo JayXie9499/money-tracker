@@ -1,10 +1,11 @@
 <script lang="ts">
-	import { finance } from '$lib/state.svelte';
 	import { X, Wallet } from 'lucide-svelte';
+	import { finance } from '$lib/state.svelte';
+	import type { Account } from '$lib/api';
 
-	let { close }: { close: () => void } = $props();
-	let name = $state('');
-	let balance = $state('');
+	let { close, initialData }: { close: () => void; initialData?: Account | null } = $props();
+	let name = $state(initialData?.name ?? '');
+	let balance = $state(initialData?.defaultBalance?.toString() ?? '');
 	let isSubmitting = $state(false);
 
 	async function handleSubmit(e: Event) {
@@ -15,10 +16,14 @@
 
 		isSubmitting = true;
 		try {
-			await finance.createAccount({ name, defaultBalance: Number(balance) || 0 });
+			if (initialData) {
+				await finance.updateAccount(initialData.id, { name, defaultBalance: Number(balance) || 0 });
+			} else {
+				await finance.createAccount({ name, defaultBalance: Number(balance) || 0 });
+			}
 			close();
 		} catch (err) {
-			alert('Unable to create account, please check if the name is duplicated');
+			alert('Action failed');
 			console.error(err);
 		} finally {
 			isSubmitting = false;
@@ -42,7 +47,7 @@
 		<div class="flex items-center justify-between p-4 border-b border-zinc-800 bg-zinc-950/50">
 			<h3 class="font-bold text-zinc-100 flex items-center gap-2">
 				<Wallet size={18} class="text-indigo-500" />
-				New Account
+				{initialData ? 'Edit Account' : 'New Account'}
 			</h3>
 
 			<button
@@ -74,7 +79,7 @@
 			<!-- Initial Balance -->
 			<div>
 				<label class="block text-xs font-bold text-zinc-500 uppercase mb-2" for="acc-balance">
-					Initial Balance
+					{initialData ? 'Default Balance' : 'Initial Balance'}
 				</label>
 
 				<div class="relative">
@@ -88,8 +93,6 @@
 						placeholder="0"
 					/>
 				</div>
-
-				<p class="text-[10px] text-zinc-600 mt-1.5 ml-1">Current balance of the account.</p>
 			</div>
 		</div>
 
@@ -107,7 +110,11 @@
 				disabled={isSubmitting}
 				class="px-6 py-2 rounded-xl text-sm font-bold bg-indigo-600 hover:bg-indigo-500 text-white transition-all disabled:opacity-50 disabled:cursor-not-allowed"
 			>
-				{isSubmitting ? 'Creating...' : 'Create Account'}
+				{#if isSubmitting}
+					Running...
+				{:else}
+					{initialData ? 'Save' : 'Create Account'}
+				{/if}
 			</button>
 		</div>
 	</form>

@@ -44,6 +44,19 @@ class FinanceApp {
 		}
 	}
 
+	async updateAccount(id: number, data: { name: string; defaultBalance: number }) {
+		try {
+			const res = await api.accounts.update(id, data);
+			const index = this.accounts.findIndex((a) => a.id === id);
+
+			if (index !== -1) {
+				Object.assign(this.accounts[index], res.data);
+			}
+		} catch (err) {
+			console.error(err);
+		}
+	}
+
 	async deleteAccount(id: number) {
 		try {
 			await api.accounts.remove(id);

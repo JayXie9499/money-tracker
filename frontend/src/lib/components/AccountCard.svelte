@@ -1,18 +1,20 @@
 <script lang="ts">
-	import { Trash2 } from 'lucide-svelte';
+	import { Trash2, Pencil } from 'lucide-svelte';
 
 	let {
 		name,
 		balance,
 		isActive = false,
 		onclick,
-		onDelete
+		onDelete,
+		onEdit
 	}: {
 		name: string;
 		balance: number;
 		isActive?: boolean;
 		onclick?: () => void;
 		onDelete: () => void;
+		onEdit: () => void;
 	} = $props();
 
 	const activeStyles =
@@ -73,22 +75,37 @@
 		</div>
 	</button>
 
-	<button
-		type="button"
-		onclick={(e) => {
-			e.stopPropagation();
-			onDelete();
-		}}
-		class="
-			absolute top-2 right-2 p-1.5 rounded-full z-20
-			transition-all duration-200
-			opacity-100 sm:opacity-0 sm:group-hover/card:opacity-100 {isActive
-			? 'text-white/50 hover:text-white hover:bg-rose-500/40'
-			: 'text-zinc-600 hover:text-rose-400 hover:bg-zinc-800'}
-		"
-		aria-label="Delete Account"
-		title="Delete Account"
+	<div
+		class="absolute top-2 right-2 flex gap-1 z-20 opacity-100 sm:opacity-0 sm:group-hover/card:opacity-100 transition-opacity duration-200"
 	>
-		<Trash2 size={14} />
-	</button>
+		<!-- Edit Button -->
+		<button
+			type="button"
+			onclick={(e) => {
+				e.stopPropagation();
+				onEdit();
+			}}
+			class="p-1.5 rounded-full transition-colors {isActive
+				? 'text-white/70 hover:bg-black/20 hover:text-white'
+				: 'text-zinc-500 hover:bg-zinc-800 hover:text-zinc-200'}"
+			title="Edit"
+		>
+			<Pencil size={14} />
+		</button>
+
+		<!-- Delete Button -->
+		<button
+			type="button"
+			onclick={(e) => {
+				e.stopPropagation();
+				onDelete();
+			}}
+			class="p-1.5 rounded-full transition-colors {isActive
+				? 'text-white/70 hover:bg-rose-500/40 hover:text-white'
+				: 'text-zinc-500 hover:bg-zinc-800 hover:text-rose-400'}"
+			title="Delete"
+		>
+			<Trash2 size={14} />
+		</button>
+	</div>
 </div>
